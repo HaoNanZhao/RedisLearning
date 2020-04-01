@@ -7,6 +7,8 @@
 ![image-20200330171011575](photo/image-20200330171011575.png)
 
 > Redis是什么，为什么要学习Redis，怎么使用Redis
+>
+> [面试Redis大全](https://www.yinxiang.com/everhub/note/ffb1a9d1-0246-45db-9324-644f364e681e)
 
 **1.Redis的安装**
 
@@ -379,6 +381,8 @@ users:2:name 麻新钰
 
 > 马士兵的redis课程
 
+![image-20200401143829719](photo/image-20200401143829719.png)
+
 
 
 ### Ⅰ.String
@@ -534,6 +538,153 @@ h表示哈希，对哈希的数据类型的操作。hdel删除一个对象中的
 
 注：没有值的key会被redis自动清楚，避免浪费内存。
 
+### Ⅲ.List
+
+> 像Java中的LinkedList类型
+
+Redis列表是简单的字符串列表，按照插入顺序排序。你可以添加一个元素到列表的头部（左边）或者尾部（右边）
+
+一个列表最多可以包含 232 - 1 个元素 (4294967295, 每个列表超过40亿个元素)。
+
+#### 1.List命令
+
+| 序号 | 命令及描述                                                   |
+| :--- | :----------------------------------------------------------- |
+| 1    | [BLPOP key1 [key2 \] timeout](https://www.runoob.com/redis/lists-blpop.html)  移出并获取列表的第一个元素， 如果列表没有元素会阻塞列表直到等待超时或发现可弹出元素为止。 |
+| 2    | [BRPOP key1 [key2 \] timeout](https://www.runoob.com/redis/lists-brpop.html)  移出并获取列表的最后一个元素， 如果列表没有元素会阻塞列表直到等待超时或发现可弹出元素为止。 |
+| 3    | [BRPOPLPUSH source destination timeout](https://www.runoob.com/redis/lists-brpoplpush.html)  从列表中弹出一个值，将弹出的元素插入到另外一个列表中并返回它； 如果列表没有元素会阻塞列表直到等待超时或发现可弹出元素为止。 |
+| 4    | [LINDEX key index](https://www.runoob.com/redis/lists-lindex.html)  通过索引获取列表中的元素 |
+| 5    | [LINSERT key BEFORE\|AFTER pivot value](https://www.runoob.com/redis/lists-linsert.html)  在列表的元素前或者后插入元素 |
+| 6    | [LLEN key](https://www.runoob.com/redis/lists-llen.html)  获取列表长度 |
+| 7    | [LPOP key](https://www.runoob.com/redis/lists-lpop.html)  移出并获取列表的第一个元素 |
+| 8    | [LPUSH key value1 [value2\]](https://www.runoob.com/redis/lists-lpush.html)  将一个或多个值插入到列表头部——**有点像栈**  对应rpush |
+| 9    | [LPUSHX key value](https://www.runoob.com/redis/lists-lpushx.html)  将一个值插入到已存在的列表头部 |
+| 10   | [LRANGE key start stop](https://www.runoob.com/redis/lists-lrange.html)  获取列表指定范围内的元素  例如 lrang key 0 -1 |
+| 11   | [LREM key count value](https://www.runoob.com/redis/lists-lrem.html)  移除列表元素 |
+| 12   | [LSET key index value](https://www.runoob.com/redis/lists-lset.html)  通过索引设置列表元素的值 |
+| 13   | [LTRIM key start stop](https://www.runoob.com/redis/lists-ltrim.html)  对一个列表进行修剪(trim)，就是说，让列表只保留指定区间内的元素，不在指定区间之内的元素都将被删除。 |
+| 14   | [RPOP key](https://www.runoob.com/redis/lists-rpop.html)  移除列表的最后一个元素，返回值为移除的元素。 |
+| 15   | [RPOPLPUSH source destination](https://www.runoob.com/redis/lists-rpoplpush.html)  移除列表的最后一个元素，并将该元素添加到另一个列表并返回 |
+| 16   | [RPUSH key value1 [value2\]](https://www.runoob.com/redis/lists-rpush.html)  在列表中添加一个或多个值 ——对应lpush |
+| 17   | [RPUSHX key value](https://www.runoob.com/redis/lists-rpushx.html)  为已存在的列表添加值 |
+
+Redis Lrange 返回列表中指定区间内的元素，区间以偏移量 START 和 END 指定。 其中 0 表示列表的第一个元素， 1 表示列表的第二个元素，以此类推。 你也可以使用负数下标，以 -1 表示列表的最后一个元素， -2 表示列表的倒数第二个元素，以此类推。
+
+### Ⅳ.Set
+
+> Redis 的 Set 是 String 类型的无序集合。集合成员是唯一的，这就意味着集合中不能出现重复的数据。
+>
+> Redis 中集合是通过哈希表实现的，所以添加，删除，查找的复杂度都是 O(1)。
+>
+> 集合中最大的成员数为 232 - 1 (4294967295, 每个集合可存储40多亿个成员)。
+
+### 1.set命令
+
+| 序号 | 命令及描述                                                   |
+| :--- | :----------------------------------------------------------- |
+| 1    | [SADD key member1 [member2]](https://www.runoob.com/redis/sets-sadd.html)  向集合添加一个或多个成员 |
+| 2    | [SCARD key](https://www.runoob.com/redis/sets-scard.html)  获取集合的成员数——**长度** |
+| 3    | [SDIFF key1 [key2]](https://www.runoob.com/redis/sets-sdiff.html)  返回给定所有集合的差集 |
+| 4    | [SDIFFSTORE destination key1 [key2]](https://www.runoob.com/redis/sets-sdiffstore.html)  返回给定所有集合的差集并存储在 destination 中 |
+| 5    | [SINTER key1 [key2]](https://www.runoob.com/redis/sets-sinter.html)  返回给定所有集合的交集 |
+| 6    | [SINTERSTORE destination key1 [key2]](https://www.runoob.com/redis/sets-sinterstore.html)  返回给定所有集合的交集并存储在 destination 中 |
+| 7    | [SISMEMBER key member](https://www.runoob.com/redis/sets-sismember.html)  判断 member 元素是否是集合 key 的成员 |
+| 8    | [SMEMBERS key](https://www.runoob.com/redis/sets-smembers.html)  返回集合中的**所有成员** |
+| 9    | [SMOVE source destination member](https://www.runoob.com/redis/sets-smove.html)  将 member 元素从 source 集合移动到 destination 集合 **厉害了** |
+| 10   | [SPOP key](https://www.runoob.com/redis/sets-spop.html)  移除并返回集合中的一个随机元素 |
+| 11   | [SRANDMEMBER key [count]](https://www.runoob.com/redis/sets-srandmember.html)  返回集合中一个或多个随机数 |
+| 12   | [SREM key member1 [member2]](https://www.runoob.com/redis/sets-srem.html)  移除集合中一个或多个成员 |
+| 13   | [SUNION key1 [key2]](https://www.runoob.com/redis/sets-sunion.html)  返回所有给定集合的并集 |
+| 14   | [SUNIONSTORE destination key1 [key2]](https://www.runoob.com/redis/sets-sunionstore.html)  所有给定集合的并集存储在 destination 集合中 |
+| 15   | [SSCAN key cursor [MATCH pattern] [COUNT count]](https://www.runoob.com/redis/sets-sscan.html)  迭代集合中的元素 |
+
+几个有趣的命令
+
+```shell
+127.0.0.1:6379> sadd s1 1 2 3 a b c
+(integer) 6
+127.0.0.1:6379> sadd s2 4 5 6 e f g c
+(integer) 6
+127.0.0.1:6379> SDIFF s1 s2
+1) "2"
+2) "a"
+3) "1"
+4) "3"
+5) "b"
+```
+
+差集 ：看s1中的哪些元素是s2中没有的元素
+
+还有交集SINTER  和  并集SUNION
+
+Store功能还能存储这些结果。
+
+### 2.应用场景
+
+- 抽奖功能
+
+```shell
+127.0.0.1:6379> SRANDMEMBER rset
+"4"
+```
+
+随机选取集合中的一个用户。
+
+- 验证用户是否存在
+
+```shell
+127.0.0.1:6379> SISMEMBER rset 3
+(integer) 1
+```
+
+### Ⅴ.Zset类型
+
+> 很多时候我们都将redis中的有序集合叫做zset，这是因为在redis中，有序集合相关的操作指令都是以z开头的。
+>
+> Redis 有序集合和集合一样也是string类型元素的集合,且不允许重复的成员。
+>
+> 不同的是**每个元素都会关联一个double类型的分数**。redis正是通过分数来为集合中的成员进行从小到大的排序。
+>
+> 有序集合的成员是唯一的,但分数(score)却可以重复。
+>
+> 集合是通过哈希表实现的，所以添加，删除，查找的复杂度都是O(1)。 集合中最大的成员数为 232 - 1 (4294967295, 每个集合可存储40多亿个成员)。
+
+#### 1.Zset命令
+
+| 序号 | 命令及描述                                                   |
+| :--- | :----------------------------------------------------------- |
+| 1    | [ZADD key score1 member1 [score2 member2]](https://www.runoob.com/redis/sorted-sets-zadd.html)  向有序集合添加一个或多个成员，或者更新已存在成员的分数 |
+| 2    | [ZCARD key](https://www.runoob.com/redis/sorted-sets-zcard.html)  获取有序集合的**成员数** |
+| 3    | [ZCOUNT key min max](https://www.runoob.com/redis/sorted-sets-zcount.html)  计算在有序集合中指定区间分数的成员数 |
+| 4    | [ZINCRBY key increment member](https://www.runoob.com/redis/sorted-sets-zincrby.html)  有序集合中对指定成员的分数加上增量 increment |
+| 5    | [ZINTERSTORE destination numkeys key [key ...]](https://www.runoob.com/redis/sorted-sets-zinterstore.html)  计算给定的一个或多个有序集的交集并将结果集存储在新的有序集合 key 中 |
+| 6    | [ZLEXCOUNT key min max](https://www.runoob.com/redis/sorted-sets-zlexcount.html)  在有序集合中计算**指定字典区间内成员数量** |
+| 7    | [ZRANGE key start stop [WITHSCORES]](https://www.runoob.com/redis/sorted-sets-zrange.html)  通过索引区间返回有序集合指定区间内的成员 |
+| 8    | [ZRANGEBYLEX key min max [LIMIT offset count]](https://www.runoob.com/redis/sorted-sets-zrangebylex.html)  通过字典区间返回有序集合的成员 |
+| 9    | [ZRANGEBYSCORE key min max [WITHSCORES\] [LIMIT]](https://www.runoob.com/redis/sorted-sets-zrangebyscore.html)  通过分数返回有序集合指定区间内的成员 |
+| 10   | [ZRANK key member](https://www.runoob.com/redis/sorted-sets-zrank.html)  返回有序集合中指定成员的索引 |
+| 11   | [ZREM key member [member ...]](https://www.runoob.com/redis/sorted-sets-zrem.html)  移除有序集合中的一个或多个成员 |
+| 12   | [ZREMRANGEBYLEX key min max](https://www.runoob.com/redis/sorted-sets-zremrangebylex.html)  移除有序集合中给定的字典区间的所有成员 |
+| 13   | [ZREMRANGEBYRANK key start stop](https://www.runoob.com/redis/sorted-sets-zremrangebyrank.html)  移除有序集合中给定的排名区间的所有成员 |
+| 14   | [ZREMRANGEBYSCORE key min max](https://www.runoob.com/redis/sorted-sets-zremrangebyscore.html)  移除有序集合中给定的分数区间的所有成员 |
+| 15   | [ZREVRANGE key start stop [WITHSCORES]](https://www.runoob.com/redis/sorted-sets-zrevrange.html)  返回有序集中指定区间内的成员，通过索引，分数从高到低 |
+| 16   | [ZREVRANGEBYSCORE key max min [WITHSCORES]](https://www.runoob.com/redis/sorted-sets-zrevrangebyscore.html)  返回有序集中指定分数区间内的成员，分数从高到低排序 |
+| 17   | [ZREVRANK key member](https://www.runoob.com/redis/sorted-sets-zrevrank.html)  返回有序集合中指定成员的排名，有序集成员按分数值递减(**从大到小**)排序 |
+| 18   | [ZSCORE key member](https://www.runoob.com/redis/sorted-sets-zscore.html)  返回有序集中，成员的分数值 |
+| 19   | [ZUNIONSTORE destination numkeys key [key ...]](https://www.runoob.com/redis/sorted-sets-zunionstore.html)  计算给定的一个或多个有序集的并集，并存储在新的 key 中 |
+| 20   | [ZSCAN key cursor [MATCH pattern\] [COUNT count]](https://www.runoob.com/redis/sorted-sets-zscan.html)  迭代有序集合中的元素（包括元素成员和元素分值） |
+
+```shell
+127.0.0.1:6379> zadd z1 99 java 80 html 100 db
+(integer) 3
+//添加元素  每添加一个就标记它的分数
+```
+
+#### 2.应用场景
+
+- 排行榜  可以以发表时间作为score来存储，这样获取时就是自动按时间排好序的。
+- 考试成绩
+
 ## 八、Java连接Redis
 
 [官网信息](https://redis.io/clients#java)
@@ -543,6 +694,8 @@ h表示哈希，对哈希的数据类型的操作。hdel删除一个对象中的
 推荐使用的是Jedis和Redisson。常用Jedis。
 
 开始在Java中使用Redis前，要确认已经安装了Redis服务和Java redis驱动。
+
+### 1.新建项目安装依赖
 
 [Maven中依赖包](https://mvnrepository.com/artifact/redis.clients/jedis/3.2.0)  最新版
 
@@ -555,4 +708,291 @@ h表示哈希，对哈希的数据类型的操作。hdel删除一个对象中的
 </dependency>
 ```
 
+### 2.简单的测试代码：
+
+```java
+ 	@Test
+    public void demo1(){
+        //连接redis数据库
+        Jedis jedis =new Jedis("49.234.125.145",6379);
+        //权限认证
+        jedis.auth("zhn");
+        //检查是否连接成功
+        System.out.println(jedis.ping());
+    }
+```
+
 ![image-20200330223758813](photo/image-20200330223758813.png)
+
+### 3.防火墙设置
+
+> 如果在2中遇到了错误，连接失败，很有可能是未开启服务端的端口防火墙
+
+- 查看已经开放的端口
+
+```shell
+firewall-cmd --list-ports
+```
+
+- 开启端口
+
+```shell
+firewall-cmd --zone=public --add-port=6379/tcp --permanent
+```
+
+- 重启防火墙
+
+```sh
+firewall-cmd --reload
+```
+
+如果上面的命令不好使，会提示安装firewalld
+
+```shell
+apt install firewalld
+```
+
+第一个命令不知道为啥不显示，又找了俩个命令
+
+```shell
+netstat -nupl   //UDP类型的端口
+netstat -ntpl   //TCP类型的端口
+```
+
+![image-20200331084158986](photo/image-20200331084158986.png)
+
+### 4.String测试
+
+![image-20200331085305851](photo/image-20200331085305851.png)
+
+![image-20200331085318298](photo/image-20200331085318298.png)
+
+发现：在IDEA中能够正常显示“字符串”这几个汉字，但是在终端下不能，这只是后者这个客户端的不能解码而已，前文也提到过.
+
+```java
+@Test
+public void demo2(){
+    //连接redis数据库
+    Jedis jedis =new Jedis("49.234.125.145",6379);
+    //权限认证
+    jedis.auth("zhn");
+    jedis.set("name","字符串");
+    System.out.println(jedis.get("name").toString());
+    jedis.close();
+
+}
+```
+
+测试二：
+
+```java
+@Test 
+public void demo3(){
+    Jedis jedis =new Jedis("49.234.125.145",6379);
+    jedis.auth("zhn");
+    String key ="newname";
+    if(jedis.exists(key)){
+        String value =jedis.get(key);
+        System.out.println("从Redis数据库中查找得到"+value);
+    }
+    else {
+        String value ="爱谁谁";
+        jedis.set(key,value);
+        System.out.println("mysql中查询得到并写入Redis中！");
+    }
+    jedis.close();
+}
+```
+
+有时候会报这个错误：
+
+MISCONF Redis is configured to save RDB snapshots, but it is currently not able to persist on disk. Commands that may modify the data set are disabled, because this instance is configured to report errors during writes if RDB snapshotting fails (stop-writes-on-bgsave-error option). Please check the Redis logs for details about the RDB error.
+
+MISCONF Redis配置为保存RDB快照，但当前无法持久保存在磁盘上。禁用了可能修改数据集的命令，因为此实例配置为在RDB快照失败时在写入过程中报告错误（stop-writes-on-bgsave-error选项）。请检查Redis日志以获取有关RDB错误的详细信息。
+
+解决方法：修改配置
+
+- 命令行修改方式示例：
+
+```shell
+127.0.0.1:6379> config set stop-writes-on-bgsave-error no
+```
+
+- 修改redis.conf文件：vi打开redis-server配置的redis.conf文件，然后使用快捷匹配模式：/stop-writes-on-bgsave-error定位到stop-writes-on-bgsave-error字符串所在位置，接着把后面的yes设置为no即可。
+
+### 5.Redis 连接池
+
+将创建连接池和连接的方法写在工具类中。
+
+```java
+package com.haonan.utils;
+import redis.clients.jedis.Jedis;
+import redis.clients.jedis.JedisPool;
+import redis.clients.jedis.JedisPoolConfig;
+
+public class MyTool {
+    private static JedisPool pool;
+    static {
+        //连接池Redis Pool基本配置信息
+        JedisPoolConfig poolConfig=new JedisPoolConfig();
+        poolConfig.setMaxTotal(5);//最大连接数
+        poolConfig.setMaxIdle(3);//最大空闲数
+        /*…………………………………………*/
+
+        //获得连接池pool
+        String host = "49.234.125.145";
+        int port=6379;
+        pool = new JedisPool(poolConfig,host,port);
+
+    }
+
+    /**
+     * 获得jedis连接
+     * */
+    public static Jedis getJedis(){
+        Jedis jedis=pool.getResource();
+        jedis.auth("zhn");
+        return jedis;
+    }
+    /**
+     * 关闭jedis连接
+     * */
+    public static void close(Jedis jedis){
+        jedis.close();
+    }
+}
+```
+
+```java
+@Test
+public void demo4(){
+    Jedis jedis = MyTool.getJedis();
+    System.out.println(jedis.ping().toString());
+    MyTool.close(jedis);
+}
+```
+
+### 6.Hash测试
+
+```java
+@Test
+public void demo5(){
+    /**
+     * Jedis完成对Hash类型的操作
+     * */
+    Jedis jedis = MyTool.getJedis();
+    String key = "user";
+    if(jedis.exists(key)){
+        System.out.println(jedis.hgetAll(key).toString());
+        Map<String, String> map = jedis.hgetAll(key);
+        System.out.println(map.get("id")+"\t"
+                +map.get("name")+"\t"+map.get("age"));
+    }
+    else {
+        jedis.hset(key,"id","1");
+        jedis.hset(key,"name","浩男");
+        jedis.hset(key,"age","22");
+    }
+    MyTool.close(jedis);
+}
+```
+
+## 九、RedisTemplate摸板
+
+### 1.简介
+
+> Spring封装了一个比较强大的模板，也就是redisTemplate，方便在开发的时候操作Redis缓存。它封装了redis连接池管理的逻辑，业务代码无需关心获取，释放连接逻辑；SpringRedis同时支持了Jedis，Jredis。rjc客户端操作。[云社区](https://cloud.tencent.com/developer/article/1349738)
+
+**RedisTemplate在Spring代码中的结构如下**
+
+```java
+org.springframework.data.redis.core
+Class RedisTemplate<K,V>
+java.lang.Object
+    org.springframework.data.redis.core.RedisAccessor
+        org.springframework.data.redis.core.RedisTemplate<K,V>
+```
+
+Type Parameters:
+
+ K
+
+- the Redis key type against which the template works (usually a String) 模板中的Redis key的类型（通常为String）如：RedisTemplate<String, Object> 注意：**如果没特殊情况，切勿定义成RedisTemplate<Object,Object>**，否则根据里氏替换原则，使用的时候会造成类型错误 。
+
+V
+
+- the Redis value type against which the template works 模板中的Redis value的类型
+
+**RedisTemplate中定义了对5种数据结构操作**
+
+```javascript
+redisTemplate.opsForValue();//操作字符串
+redisTemplate.opsForHash();//操作hash
+redisTemplate.opsForList();//操作list
+redisTemplate.opsForSet();//操作set
+redisTemplate.opsForZSet();//操作有序set
+```
+
+### 2.Sprinigdata使用RedisTemplate模板
+
+1、jar：Redis和Spring整合  [Maven仓库](https://mvnrepository.com/artifact/org.springframework.data/spring-data-redis/2.2.6.RELEASE)
+
+```xml
+<!-- https://mvnrepository.com/artifact/org.springframework.data/spring-data-redis -->
+<dependency>
+    <groupId>org.springframework.data</groupId>
+    <artifactId>spring-data-redis</artifactId>
+    <version>2.2.6.RELEASE</version>
+</dependency>
+```
+
+在已添加jedis依赖的基础上加上这个依赖。
+
+![image-20200331112542551](photo/image-20200331112542551.png)
+
+2.实体类User的序列化操作
+
+```java
+import java.io.Serializable;
+public class User implements Serializable {}
+```
+
+这里先不学了，需要用到Spring的知识。
+
+## 十、redis的发布订阅
+
+### 1.简介
+
+> Redis 发布订阅(pub/sub)是一种消息通道模式：发送者pub发送消息，订阅者sub接受消息。Redis 客户端可以订阅任意数量的频道。
+
+![image-20200331192120078](photo/image-20200331192120078.png)
+
+### 2.发布订阅命令
+
+| 序号 | 命令及描述                                                   |
+| :--- | :----------------------------------------------------------- |
+| 1    | [PSUBSCRIBE pattern [pattern ...]](https://www.runoob.com/redis/pub-sub-psubscribe.html)  订阅一个或多个符合给定模式的频道。 |
+| 2    | [PUBSUB subcommand [argument [argument ...\]]](https://www.runoob.com/redis/pub-sub-pubsub.html)  查看订阅与发布系统状态。 |
+| 3    | [PUBLISH channel message](https://www.runoob.com/redis/pub-sub-publish.html)  将信息发送到指定的频道。 |
+| 4    | [PUNSUBSCRIBE [pattern [pattern ...\]]](https://www.runoob.com/redis/pub-sub-punsubscribe.html)  退订所有给定模式的频道。 |
+| 5    | [SUBSCRIBE channel [channel ...]](https://www.runoob.com/redis/pub-sub-subscribe.html)  订阅给定的一个或多个频道的信息。 |
+| 6    | [UNSUBSCRIBE [channel [channel ...\]]](https://www.runoob.com/redis/pub-sub-unsubscribe.html)  指退订给定的频道。 |
+
+一个客户端开一个频道：
+
+![image-20200331192804904](photo/image-20200331192804904.png)
+
+另一个客户端下publish：
+
+![image-20200331192858702](photo/image-20200331192858702.png)
+收到：
+![image-20200331192913948](photo/image-20200331192913948.png)
+
+### 3.应用场景
+
+- 构建实时消息系统
+- 博客文章推送
+- 微信公众号
+
+十一、Redis多数据库
+
